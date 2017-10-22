@@ -1,0 +1,34 @@
+group 'com.smartapps.bharani'
+version '1.0-SNAPSHOT'
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "io.ratpack:ratpack-gradle:1.5.0"
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: "io.ratpack.ratpack-groovy"
+apply plugin: "idea"
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    runtime "org.slf4j:slf4j-simple:1.7.25"
+}
+
+
+run {
+    jvmArgs "-Dratpack.port=8080"
+    systemProperty "ratpack.reloadable", "true"
+}
