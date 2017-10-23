@@ -39,7 +39,7 @@ class DimmerSpec extends Specification {
         responseText == "Welcome to SmartApps dimmer App"
     }
 
-    def "test setValue"() {
+    def "test setValue for invalid setLevel"() {
         when:
         requestSpec({ RequestSpec requestSpec ->
             requestSpec.body.type('application/json')
@@ -51,6 +51,20 @@ class DimmerSpec extends Specification {
         then:
         response.status == Status.OK
         response.body.text == "Invalid Level"
+    }
+
+    def "test setValue for valid setLevel"() {
+        when:
+        requestSpec({ RequestSpec requestSpec ->
+            requestSpec.body.type('application/json')
+            requestSpec.headers.set("AUTHORIZATION", "Bearer 74ca99d3-8f2d-4925-90d0-ea16c87ea41c")
+            requestSpec.body.text(new JsonBuilder([level: 95]).toString())
+        } as RatpackAction)
+        ReceivedResponse response = post("/setLevel")
+
+        then:
+        response.status == Status.OK
+        response.body.text == "Successfully Updated"
     }
 
 }
