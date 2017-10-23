@@ -26,15 +26,15 @@ def updated() {
 }
 
 def initialize() {
-   
+
 }
 
 
 
 mappings {
-    
+
     path("/setLevel") {
-    	action: [
+        action: [
                 POST: "updateAllDimmers"
         ]
     }
@@ -63,41 +63,30 @@ def showDimmer() {
     show(dimmers, "level")
 }
 void updateDimmer() {
-	def level = request.JSON?.level
+    def level = request.JSON?.level
     update(dimmers,params.id,params.command,level)
 }
 
 void updateAllDimmers() {
-	def level = request.JSON?.level
+    def level = request.JSON?.level
     log.debug "level value in updateAllDimmers: $level"
     dimmers?.each {
-    	update(dimmers,it.id,'level', level)
+        update(dimmers,it.id,'level', level)
     }
 }
 
 private void update(devices, deviceId, command, level) {
     log.debug "update, request: params: ${params}, devices: $devices.id, ${body}"
-    //let's create a toggle option here
     if (command)
     {
         def device = devices.find { it.id == deviceId }
         if (!device) {
             httpError(404, "Device not found")
         } else {
-            if(command == "toggle")
-            {
-                if(device.currentValue('switch') == "on")
-                    device.off();
-                else
-                    device.on();
-            }
-            else if(command == "level")
+
+            if(command == "level")
             {
                 device.setLevel(level.toInteger())
-            }
-            else if(command == "events")
-            {
-                device.events(max: 20)
             }
             else
             {
@@ -113,7 +102,7 @@ private show(devices, type) {
         httpError(404, "Device not found")
     }
     else {
-        def attributeName = type == "motionSensor" ? "motion" : type
+        def attributeName = type
         def s = device.currentState(attributeName)
         [id: device.id, label: device.displayName, value: s?.value, unitTime: s?.date?.time, type: type]
     }

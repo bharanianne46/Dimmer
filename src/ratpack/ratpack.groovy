@@ -12,7 +12,7 @@ import java.time.Duration
 
 import static ratpack.groovy.Groovy.ratpack
 
-String url = "https://graph-na04-useast2.api.smartthings.com/api/smartapps/installations/cce949b7-8579-4085-8116-6764563dc55a"
+String url = "https://graph-na04-useast2.api.smartthings.com/api/smartapps/installations/497e9a33-93d6-4279-abe8-c0fe0ccf9d02"
 
 ratpack {
     handlers {
